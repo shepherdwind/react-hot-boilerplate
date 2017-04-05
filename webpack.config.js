@@ -1,7 +1,13 @@
 var path = require('path');
 var webpack = require('webpack');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
+  externals: {
+    react: 'window.React',
+    'react-dom': 'window.ReactDOM',
+  },
+
   entry: [
     'react-hot-loader/patch',
     // activate HMR for React
@@ -39,6 +45,13 @@ module.exports = {
         ],
         exclude: /node_modules/,
       },
+      {
+        test: /\.css$/,
+        use: ['css-hot-loader'].concat(ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: 'css-loader'
+        })),
+      },
     ],
   },
 
@@ -51,6 +64,11 @@ module.exports = {
 
     new webpack.NoEmitOnErrorsPlugin(),
     // do not emit compiled assets that include errors
+    new ExtractTextPlugin({
+			filename: 'app.css',
+			disable: false,
+			allChunks: true
+    }),
   ],
 
   devServer: {
