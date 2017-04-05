@@ -1,9 +1,9 @@
 import React from 'react';
 
-import './b.css';
+import { main } from './b.css';
 export default function Layout({ children }) {
   return (
-    <div>
+    <div className={main}>
       <h1>Hello , world foo!</h1>
       {children}
     </div>
